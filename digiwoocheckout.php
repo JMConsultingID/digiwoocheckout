@@ -18,4 +18,12 @@ define('DIGIWOO_URL', plugin_dir_url(__FILE__));
 // Include other necessary files and classes here.
 require_once DIGIWOO_PATH . 'includes/admin-settings.php';
 
+function digiwoo_elementor_loaded() {
+    return did_action('elementor/loaded');
+}
+
+
 // More code for widget registration, etc. will come here later.
+if (digiwoo_elementor_loaded()) {
+    require_once DIGIWOO_PATH . 'widgets/digiwoo-elementor-widget.php';
+}
