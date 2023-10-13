@@ -33,23 +33,23 @@ function digiwoo_settings_init() {
         'digiwoocheckout'
     );
 
-    add_settings_field(
-        'digiwoo_title',
-        'Title',
-        'digiwoo_title_callback',
-        'digiwoocheckout',
-        'digiwoo_main_section'
-    );
-    register_setting('digiwoo_settings', 'digiwoo_title');
+    // add_settings_field(
+    //     'digiwoo_title',
+    //     'Title',
+    //     'digiwoo_title_callback',
+    //     'digiwoocheckout',
+    //     'digiwoo_main_section'
+    // );
+    // register_setting('digiwoo_settings', 'digiwoo_title');
 
-    add_settings_field(
-        'digiwoo_description',
-        'Description',
-        'digiwoo_description_callback',
-        'digiwoocheckout',
-        'digiwoo_main_section'
-    );
-    register_setting('digiwoo_settings', 'digiwoo_description');
+    // add_settings_field(
+    //     'digiwoo_description',
+    //     'Description',
+    //     'digiwoo_description_callback',
+    //     'digiwoocheckout',
+    //     'digiwoo_main_section'
+    // );
+    // register_setting('digiwoo_settings', 'digiwoo_description');
 
     add_settings_field(
         'digiwoo_enable',
@@ -64,13 +64,13 @@ function digiwoo_settings_init() {
 add_action('admin_init', 'digiwoo_settings_init');
 
 function digiwoo_title_callback() {
-    $title = get_option('digiwoo_title', '');
-    echo "<input type='text' name='digiwoo_title' value='$title' />";
+    // $title = get_option('digiwoo_title', '');
+    // echo "<input type='text' name='digiwoo_title' value='$title' />";
 }
 
 function digiwoo_description_callback() {
-    $description = get_option('digiwoo_description', '');
-    echo "<textarea name='digiwoo_description' rows='5' cols='40'>$description</textarea>";
+    // $description = get_option('digiwoo_description', '');
+    // echo "<textarea name='digiwoo_description' rows='5' cols='40'>$description</textarea>";
 }
 
 function digiwoo_enable_callback() {
