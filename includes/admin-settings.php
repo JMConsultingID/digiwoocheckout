@@ -86,7 +86,7 @@ function digiwoo_setup_rule() {
     $table->prepare_items();
 
     $products = digiwoocheckout_get_woocommerce_products('exclude');
-    $addons = digiwoocheckout_get_woocommerce_products('include')
+    $addons = digiwoocheckout_get_woocommerce_products('include');
 
     echo '<div class="wrap">';
     echo '<h1>' . __('DigiWooCheckout Rules', 'digiwoocheckout') . '</h1>';
