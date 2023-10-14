@@ -46,8 +46,8 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
     public function prepare_items() {
         $columns = $this->get_columns();
         $this->_column_headers = array($columns);
-
-        $this->items = $this->get_rules();
+        
+        $this->items = digiwoocheckout_get_rules();
     }
 
     public function column_default($item, $column_name) {
