@@ -13,12 +13,12 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
     }
 
     public function get_columns() {
-        return [
-            'product_name'    => __('Product', 'digiwoocheckout'),
-            'addon_name'      => __('Addon', 'digiwoocheckout'),
-            'program_id' => __('Program ID', 'digiwoocheckout'),
-            'actions'    => __('Actions', 'digiwoocheckout')
-        ];
+        $columns = array(
+            'product_name' => __('Product', 'digiwoocheckout'),
+            'addon_name'   => __('Addon', 'digiwoocheckout'),
+            'program_id'   => __('Program ID', 'digiwoocheckout')
+        );
+        return $columns;
     }
 
     public function prepare_items() {
@@ -30,14 +30,14 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
 
     public function column_default($item, $column_name) {
         switch ($column_name) {
-            case 'product':
-            case 'addon':
+            case 'product_name':
+                return esc_html($item['product_name']);
+            case 'addon_name':
+                return esc_html($item['addon_name']);
             case 'program_id':
-                return $item[$column_name];
-            case 'actions':
-                return sprintf('<a href="?page=%s&action=delete&rule_id=%s">%s</a>', $_REQUEST['page'], $item['program_id'], __('Delete', 'digiwoocheckout'));
+                return esc_html($item['program_id']);
             default:
-                return print_r($item, true);
+                return print_r($item, true);  // For debugging purposes
         }
     }
 }
