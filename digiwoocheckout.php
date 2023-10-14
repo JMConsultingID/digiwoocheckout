@@ -18,12 +18,21 @@ define('DIGIWOO_URL', plugin_dir_url(__FILE__));
 // Include other necessary files and classes here.
 require_once DIGIWOO_PATH . 'includes/admin-settings.php';
 
-function digiwoo_elementor_loaded() {
-    return did_action('elementor/loaded');
+function add_digiwoocheckout_categories( $elements_manager ) {
+    $elements_manager->add_category(
+        'digiwoocheckout-category',
+        [
+            'title' => esc_html__( 'Digiwoo Checkout Widget', 'digiwoocheckout' ),
+            'icon' => 'fa fa-plug',
+        ]
+    );
 }
+add_action( 'elementor/elements/categories_registered', 'add_digiwoocheckout_categories' );
 
+function register_digiwoocheckout_widget( $widgets_manager ) {
 
-// More code for widget registration, etc. will come here later.
-if (digiwoo_elementor_loaded()) {
-    require_once DIGIWOO_PATH . 'widgets/digiwoo-elementor-widget.php';
+    require_once( __DIR__ . '/widgets/digiwoo-checkout-elementor-widget.php' );    
+
+    $widgets_manager->register( new \Elementor_Digiwoo_Checkout_Elementor_Widget() );   
 }
+add_action( 'elementor/widgets/register', 'register_digiwoocheckout_widget' );
