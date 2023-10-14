@@ -92,15 +92,19 @@ function digiwoo_setup_rule() {
     echo '<form method="post">';
     echo '<label for="product">' . __('Product:', 'digiwoocheckout') . '</label>';
     echo '<input type="text" name="product" required>';
+    echo '</br>';
     
     echo '<label for="addon">' . __('Addon:', 'digiwoocheckout') . '</label>';
     echo '<input type="text" name="addon" required>';
+    echo '</br>';
     
     echo '<label for="program_id">' . __('Program ID:', 'digiwoocheckout') . '</label>';
     echo '<input type="text" name="program_id" required>';
+    echo '</br>';
 
     echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
     echo '</form>';
+    echo '</br>';
 
     $table->display();
     echo '</div>';
