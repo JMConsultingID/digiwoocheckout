@@ -143,7 +143,7 @@ function digiwoo_setup_rule() {
 
     echo '<div class="wrap">';
 
-    echo '<h1>' . __('DigiWoo CheckoutRules', 'digiwoocheckout') . '</h1>';
+    echo '<h1>' . __('Digiwoo Checkout Rules', 'digiwoocheckout') . '</h1>';
     echo '<p>' . __('Manage rules for DigiWoo Checkout. Here you can add, edit, or delete rules as needed.', 'digiwoocheckout') . '</p>';
 
     // Styles for the table layout
