@@ -235,9 +235,18 @@ function digiwoocheckout_get_rules() {
 }
 
 function digiwoocheckout_add_rule($rule) {
-    $rules = digiwoocheckout_get_rules();
-    $rules[] = $rule;
-    update_option('digiwoocheckout_rules', $rules);
+    global $wpdb;
+
+    // Insert rule into the database. $wpdb->insert will handle the auto-increment for the ID.
+    $wpdb->insert(
+        "{$wpdb->prefix}digiwoocheckout_rules",
+        array(
+            'product'    => $rule['product'],
+            'addon'      => $rule['addon'],
+            'program_id' => $rule['program_id']
+        ),
+        array('%d', '%d', '%s')  // data format for product, addon, and program_id respectively
+    );
 }
 
 function digiwoocheckout_get_woocommerce_products($type = 'exclude') {
