@@ -112,6 +112,7 @@ function digiwoo_setup_rule() {
     
     echo '<label for="program_id">' . __('Program ID:', 'digiwoocheckout') . '</label>';
     echo '<input type="text" name="program_id" required>';
+    echo '</br>';
 
     echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
     echo '</form>';
