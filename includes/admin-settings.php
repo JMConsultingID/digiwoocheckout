@@ -129,18 +129,6 @@ function digiwoo_setup_rule() {
         }
     }
 
-
-    // Check if the user submitted a new rule
-    if(isset($_POST['product'], $_POST['addon'], $_POST['program_id'])) {
-        $new_rule = array(
-            'product'    => sanitize_text_field($_POST['product']),
-            'addon'      => sanitize_text_field($_POST['addon']),
-            'program_id' => sanitize_text_field($_POST['program_id'])
-        );
-        digiwoocheckout_add_rule($new_rule);
-    }
-
-
     $table = new DigiWooCheckout_List_Table();
     $table->prepare_items();
 
