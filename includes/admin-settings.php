@@ -89,37 +89,74 @@ function digiwoo_setup_rule() {
     $addons = digiwoocheckout_get_woocommerce_products('include');
 
     echo '<div class="wrap">';
+
     echo '<h1>' . __('DigiWooCheckout Rules', 'digiwoocheckout') . '</h1>';
+
+    // Styles for the table layout
+    echo '<style>
+        .digiwoocheckout-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .digiwoocheckout-table th, .digiwoocheckout-table td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        .digiwoocheckout-table th {
+            background-color: #f5f5f5;
+            text-align: left;
+        }
+    </style>';
 
     // Input form for new rules
     echo '<form method="post">';
 
-    echo '<label for="product">' . __('Product:', 'digiwoocheckout') . '</label>';
-    echo '<select name="product">';
+    echo '<table class="digiwoocheckout-table">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th>' . __('Product', 'digiwoocheckout') . '</th>';
+    echo '<th>' . __('Addon', 'digiwoocheckout') . '</th>';
+    echo '<th>' . __('Program ID', 'digiwoocheckout') . '</th>';
+    echo '<th>&nbsp;</th>'; // This is for the submit button column
+    echo '</tr>';
+    echo '</thead>';
+
+    echo '<tbody>';
+    echo '<tr>';
+    echo '<td>';
+    echo '<select name="product" style="width: 100%;">';
     foreach($products as $product) {
         echo '<option value="' . esc_attr($product->ID) . '">' . esc_html($product->post_title) . '</option>';
     }
     echo '</select>';
-    echo '</br>';
-    
-    echo '<label for="addon">' . __('Addon:', 'digiwoocheckout') . '</label>';
-    echo '<select name="addon">';
+    echo '</td>';
+
+    echo '<td>';
+    echo '<select name="addon" style="width: 100%;">';
     foreach($addons as $addon) {
         echo '<option value="' . esc_attr($addon->ID) . '">' . esc_html($addon->post_title) . '</option>';
     }
     echo '</select>';
-    echo '</br>';
-    
-    echo '<label for="program_id">' . __('Program ID:', 'digiwoocheckout') . '</label>';
-    echo '<input type="text" name="program_id" required>';
-    echo '</br>';
+    echo '</td>';
 
+    echo '<td>';
+    echo '<input type="text" name="program_id" required style="width: 100%;">';
+    echo '</td>';
+
+    echo '<td>';
     echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
+    echo '</td>';
+
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
+
     echo '</form>';
-    echo '</br>';
 
     $table->display();
     echo '</div>';
+
 }
 
 function digiwoo_settings_init() {
