@@ -1,21 +1,22 @@
 <?php
 function digiwoo_admin_menu() {
     add_menu_page(
-        'DigiWoo Checkout Settings',
-        'DigiWoo Checkout',
+        'Digiwoo Checkout Settings',
+        'Digiwoo Checkout',
         'manage_options',
         'digiwoocheckout',
         'digiwoo_settings_page',
         'dashicons-shield', 
         22
     );
+    add_submenu_page('digiwoocheckout', 'Setup Rule', 'Setup Rule', 'manage_options', 'digiwoocheckout-setup-rule', 'digiwoo_setup_rule');
 }
 add_action('admin_menu', 'digiwoo_admin_menu');
 
 function digiwoo_settings_page() {
     ?>
     <div class="wrap">
-        <h2>DigiWooCheckout Settings</h2>
+        <h2>DigiWoo Checkout Settings</h2>
         <form method="post" action="options.php">
             <?php
                 settings_fields('digiwoo_settings');
