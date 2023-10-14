@@ -25,14 +25,7 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
         $columns = $this->get_columns();
         $this->_column_headers = array($columns);
 
-        // For simplicity, I'm using dummy data here. 
-        // In a real-world scenario, you'd fetch this data from your database.
-        $dummy_data = [
-            ['product' => 'Evaluation 5000', 'addon' => 'Raw Spreads', 'program_id' => '342c98a659a174b'],
-            ['product' => 'Evaluation 10000', 'addon' => 'No Time Limit', 'program_id' => '423498a659a174b']
-        ];
-
-        $this->items = $dummy_data;
+        $this->items = digiwoocheckout_get_rules();
     }
 
     public function column_default($item, $column_name) {
@@ -79,14 +72,38 @@ function digiwoo_settings_page() {
 }
 
 function digiwoo_setup_rule() {
+    // Check if the user submitted a new rule
+    if(isset($_POST['product'], $_POST['addon'], $_POST['program_id'])) {
+        $new_rule = array(
+            'product'    => sanitize_text_field($_POST['product']),
+            'addon'      => sanitize_text_field($_POST['addon']),
+            'program_id' => sanitize_text_field($_POST['program_id'])
+        );
+        digiwoocheckout_add_rule($new_rule);
+    }
+
     $table = new DigiWooCheckout_List_Table();
     $table->prepare_items();
-    ?>
-    <div class="wrap">
-        <h2>DigiWoo Checkout Setup Rule</h2>
-        <?php $table->display(); ?>
-    </div>
-    <?php
+
+    echo '<div class="wrap">';
+    echo '<h1>' . __('DigiWooCheckout Rules', 'digiwoocheckout') . '</h1>';
+
+    // Input form for new rules
+    echo '<form method="post">';
+    echo '<label for="product">' . __('Product:', 'digiwoocheckout') . '</label>';
+    echo '<input type="text" name="product" required>';
+    
+    echo '<label for="addon">' . __('Addon:', 'digiwoocheckout') . '</label>';
+    echo '<input type="text" name="addon" required>';
+    
+    echo '<label for="program_id">' . __('Program ID:', 'digiwoocheckout') . '</label>';
+    echo '<input type="text" name="program_id" required>';
+
+    echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
+    echo '</form>';
+
+    $table->display();
+    echo '</div>';
 }
 
 function digiwoo_settings_init() {
@@ -140,4 +157,14 @@ function digiwoo_description_callback() {
 function digiwoo_enable_callback() {
     $checked = get_option('digiwoo_enable', '0') == '1' ? 'checked' : '';
     echo "<input type='checkbox' name='digiwoo_enable' value='1' $checked />";
+}
+
+function digiwoocheckout_get_rules() {
+    return get_option('digiwoocheckout_rules', array());
+}
+
+function digiwoocheckout_add_rule($rule) {
+    $rules = digiwoocheckout_get_rules();
+    $rules[] = $rule;
+    update_option('digiwoocheckout_rules', $rules);
 }
