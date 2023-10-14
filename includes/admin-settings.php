@@ -2,7 +2,7 @@
 function digiwoo_admin_menu() {
     add_menu_page(
         'Digiwoo Checkout Settings',
-        'Digiwoo Checkout',
+        'General Setting',
         'manage_options',
         'digiwoocheckout',
         'digiwoo_settings_page',
