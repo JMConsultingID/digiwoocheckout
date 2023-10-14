@@ -143,10 +143,14 @@ function digiwoo_setup_rule() {
 
     echo '<div class="wrap">';
 
-    echo '<h1>' . __('DigiWooCheckout Rules', 'digiwoocheckout') . '</h1>';
+    echo '<h1>' . __('DigiWoo CheckoutRules', 'digiwoocheckout') . '</h1>';
+    echo '<p>' . __('Manage rules for DigiWoo Checkout. Here you can add, edit, or delete rules as needed.', 'digiwoocheckout') . '</p>';
 
     // Styles for the table layout
     echo '<style>
+        .digiwoocheckout-rules-admin{
+            margin-top:20px;
+        }
         .digiwoocheckout-table {
             width: 100%;
             border-collapse: collapse;
@@ -165,6 +169,7 @@ function digiwoo_setup_rule() {
     // Check if we are editing a rule and populate the form
     $editing_rule = isset($current_rule) ? $current_rule : array('product' => '', 'addon' => '', 'program_id' => '');
     
+    echo '<div class="digiwoocheckout-rules-admin">';
     echo '<form method="post">';
     echo '<table class="digiwoocheckout-table">';
     echo '<thead>';
@@ -217,6 +222,7 @@ function digiwoo_setup_rule() {
     echo '</tbody>';
     echo '</table>';
     echo '</form>';
+    echo '</div>';
 
     $table->display();
     echo '</div>';
