@@ -14,10 +14,6 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
     }
 
     public function get_categories() {
-        return ['general']; // Category where the widget will reside in Elementor's panel
-    }
-
-    public function get_categories() {
 		return [ 'digiwoocheckout-category' ];
 	}
 
