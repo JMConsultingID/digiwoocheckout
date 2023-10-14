@@ -74,12 +74,9 @@ function digiwoo_settings_page() {
 function digiwoo_setup_rule() {
     // Check if the user submitted a new rule
     if(isset($_POST['product'], $_POST['addon'], $_POST['program_id'])) {
-        $product_name = get_the_title(sanitize_text_field($_POST['product']));
-        $addon_name = get_the_title(sanitize_text_field($_POST['addon']));
-
         $new_rule = array(
-            'product'    => $product_name,  // Now using the product name instead of ID
-            'addon'      => $addon_name,    // Now using the addon name instead of ID
+            'product'    => sanitize_text_field($_POST['product']),
+            'addon'      => sanitize_text_field($_POST['addon']),
             'program_id' => sanitize_text_field($_POST['program_id'])
         );
         digiwoocheckout_add_rule($new_rule);
@@ -192,9 +189,15 @@ function digiwoo_settings_init() {
 add_action('admin_init', 'digiwoo_settings_init');
 
 
-function digiwoo_enable_callback() {
-    $checked = get_option('digiwoo_enable', '0') == '1' ? 'checked' : '';
-    echo "<input type='checkbox' name='digiwoo_enable' value='1' $checked />";
+function digiwoocheckout_get_rules() {
+    $rules = get_option('digiwoocheckout_rules', array());  // fetching the rules (however you're doing it)
+
+    foreach($rules as $index => $rule) {
+        $rules[$index]['product_name'] = get_the_title($rule['product']);
+        $rules[$index]['addon_name'] = get_the_title($rule['addon']);
+    }
+    
+    return $rules;
 }
 
 function digiwoo_get_category_callback() {
