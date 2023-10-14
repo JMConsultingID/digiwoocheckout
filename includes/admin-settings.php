@@ -106,6 +106,8 @@ function digiwoo_setup_rule() {
     if(isset($_GET['action']) && isset($_GET['rule_id'])) {
         if($_GET['action'] === 'delete') {
             $wpdb->delete($table_name, array('id' => $_GET['rule_id']));
+            wp_redirect(admin_url('admin.php?page=digiwoocheckout-setup-rule'));
+            exit;
         } elseif($_GET['action'] === 'edit') {
             // If edit action is clicked, populate the $current_rule with the existing values
             $current_rule = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $_GET['rule_id']), ARRAY_A);
@@ -123,9 +125,13 @@ function digiwoo_setup_rule() {
         // If edit form is submitted, update the rule
         if(isset($_POST['rule_id']) && $_POST['rule_id']) {
             $wpdb->update($table_name, $rule_data, array('id' => $_POST['rule_id']));
+            wp_redirect(admin_url('admin.php?page=digiwoocheckout-setup-rule'));
+            exit;
         } else {
             // Otherwise, it's a new rule
             digiwoocheckout_add_rule($rule_data);
+            wp_redirect(admin_url('admin.php?page=digiwoocheckout-setup-rule'));
+            exit;
         }
     }
 
