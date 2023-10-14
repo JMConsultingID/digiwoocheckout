@@ -71,8 +71,8 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
     		$product = wc_get_product($settings['selected_product']);
 			if ($product) {
 			    echo $product->get_image()."<br/>"; // Displays the product image
-			    echo $product->get_name()"<br/>"; // Product title
-			    echo $product->get_price_html()"<br/>"; // Price
+			    echo $product->get_name()."<br/>"; // Product title
+			    echo $product->get_price_html()."<br/>"; // Price
 			}
     		?>
     	</div>
