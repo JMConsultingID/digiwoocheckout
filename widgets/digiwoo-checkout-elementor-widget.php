@@ -22,11 +22,13 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 	}
 
     protected function register_controls() {
+
+    	
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __('Content', 'digiwoocheckout'),
-                'tab' => Controls_Manager::TAB_CONTENT,
+                'label' => esc_html__('Content', 'digiwoocheckout'),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
 

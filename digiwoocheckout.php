@@ -30,8 +30,8 @@ function add_digiwoocheckout_categories( $elements_manager ) {
 add_action( 'elementor/elements/categories_registered', 'add_digiwoocheckout_categories' );
 
 function register_digiwoocheckout_widget( $widgets_manager ) {
-
-    require_once( __DIR__ . '/widgets/digiwoo-checkout-elementor-widget.php' );    
+    
+    require_once DIGIWOO_PATH . 'widgets/digiwoo-checkout-elementor-widget.php';   
 
     $widgets_manager->register( new \Elementor_Digiwoo_Checkout_Elementor_Widget() );   
 }
