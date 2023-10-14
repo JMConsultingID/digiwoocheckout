@@ -2,6 +2,26 @@
 // Main plugin file
 require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 
+function digiwoocheckout_create_rules_table() {
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'digiwoocheckout_rules';
+
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        product mediumint(9) NOT NULL,
+        addon mediumint(9) NOT NULL,
+        program_id text NOT NULL,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+
+
 class DigiWooCheckout_List_Table extends WP_List_Table {
 
     public function __construct() {

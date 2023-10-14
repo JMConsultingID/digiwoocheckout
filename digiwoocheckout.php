@@ -17,6 +17,9 @@ define('DIGIWOO_URL', plugin_dir_url(__FILE__));
 
 // Include other necessary files and classes here.
 require_once DIGIWOO_PATH . 'includes/admin-settings.php';
+// Register the activation hook
+register_activation_hook(__FILE__, 'digiwoocheckout_create_rules_table');
+
 
 function add_digiwoocheckout_categories( $elements_manager ) {
     $elements_manager->add_category(
@@ -30,7 +33,7 @@ function add_digiwoocheckout_categories( $elements_manager ) {
 add_action( 'elementor/elements/categories_registered', 'add_digiwoocheckout_categories' );
 
 function register_digiwoocheckout_widget( $widgets_manager ) {
-    
+
     require_once DIGIWOO_PATH . 'widgets/digiwoo-checkout-elementor-widget.php';   
 
     $widgets_manager->register( new \Elementor_Digiwoo_Checkout_Elementor_Widget() );   
