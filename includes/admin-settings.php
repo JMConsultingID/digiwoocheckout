@@ -28,6 +28,14 @@ function digiwoo_settings_page() {
     <?php
 }
 
+function digiwoo_setup_rule() {
+    ?>
+    <div class="wrap">
+        <h2>DigiWoo Checkout Setup Rule</h2>
+    </div>
+    <?php
+}
+
 function digiwoo_settings_init() {
     add_settings_section(
         'digiwoo_main_section',
