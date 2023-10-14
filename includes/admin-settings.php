@@ -53,21 +53,20 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
     public function column_default($item, $column_name) {
         switch ($column_name) {
             case 'product_name':
+                return esc_html($item['product_name']);
             case 'addon_name':
+                return esc_html($item['addon_name']);
             case 'program_id':
-                return $item[$column_name];
+                return esc_html($item['program_id']);
+            case 'actions':
+                // Example: Add a delete link and an edit link. 
+                $delete_link = sprintf('<a href="?page=%s&action=delete&rule_id=%s">Delete</a>', $_REQUEST['page'], $item['ID']);
+                $edit_link = sprintf('<a href="?page=%s&action=edit&rule_id=%s">Edit</a>', $_REQUEST['page'], $item['ID']);
+                return $edit_link . ' | ' . $delete_link;
             default:
-                return print_r($item, true); // For debugging purposes.
+                return print_r($item, true);  // For debugging purposes
         }
     }
-    public function column_program_id($item) {
-        $actions = array(
-            'edit' => sprintf('<a href="?page=%s&action=%s&rule=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['id'])
-        );
-
-        return sprintf('%1$s %2$s', $item['program_id'], $this->row_actions($actions));
-    }
-
 }
 
 function digiwoo_admin_menu() {
@@ -251,10 +250,18 @@ function digiwoo_get_category_callback() {
 function digiwoocheckout_get_rules() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'digiwoocheckout_rules';
-    
-    $query = "SELECT * FROM $table_name";
-    return $wpdb->get_results($query, 'ARRAY_A');
+
+    $results = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
+
+    // Enrich results with product and addon names.
+    foreach($results as $index => $result) {
+        $results[$index]['product_name'] = get_the_title($result['product']);
+        $results[$index]['addon_name'] = get_the_title($result['addon']);
+    }
+
+    return $results;
 }
+
 
 function digiwoocheckout_add_rule($rule) {
     global $wpdb;
