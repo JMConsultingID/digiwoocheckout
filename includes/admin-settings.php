@@ -1,4 +1,54 @@
 <?php
+// Main plugin file
+require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
+
+class DigiWooCheckout_List_Table extends WP_List_Table {
+
+    public function __construct() {
+        parent::__construct([
+            'singular' => __('Rule', 'digiwoocheckout'),
+            'plural'   => __('Rules', 'digiwoocheckout'),
+            'ajax'     => false
+        ]);
+    }
+
+    public function get_columns() {
+        return [
+            'product'    => __('Product', 'digiwoocheckout'),
+            'addon'      => __('Addon', 'digiwoocheckout'),
+            'program_id' => __('Program ID', 'digiwoocheckout'),
+            'actions'    => __('Actions', 'digiwoocheckout')
+        ];
+    }
+
+    public function prepare_items() {
+        $columns = $this->get_columns();
+        $this->_column_headers = array($columns);
+
+        // For simplicity, I'm using dummy data here. 
+        // In a real-world scenario, you'd fetch this data from your database.
+        $dummy_data = [
+            ['product' => 'Evaluation 5000', 'addon' => 'Raw Spreads', 'program_id' => '342c98a659a174b'],
+            ['product' => 'Evaluation 10000', 'addon' => 'No Time Limit', 'program_id' => '423498a659a174b']
+        ];
+
+        $this->items = $dummy_data;
+    }
+
+    public function column_default($item, $column_name) {
+        switch ($column_name) {
+            case 'product':
+            case 'addon':
+            case 'program_id':
+                return $item[$column_name];
+            case 'actions':
+                return sprintf('<a href="?page=%s&action=delete&rule_id=%s">%s</a>', $_REQUEST['page'], $item['program_id'], __('Delete', 'digiwoocheckout'));
+            default:
+                return print_r($item, true);
+        }
+    }
+}
+
 function digiwoo_admin_menu() {
     add_menu_page(
         'Digiwoo Checkout Settings',
@@ -29,9 +79,12 @@ function digiwoo_settings_page() {
 }
 
 function digiwoo_setup_rule() {
+    $table = new DigiWooCheckout_List_Table();
+    $table->prepare_items();
     ?>
     <div class="wrap">
         <h2>DigiWoo Checkout Setup Rule</h2>
+        <?php $table->display(); ?>
     </div>
     <?php
 }
