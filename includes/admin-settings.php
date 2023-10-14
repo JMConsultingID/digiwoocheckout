@@ -14,8 +14,8 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
 
     public function get_columns() {
         return [
-            'product'    => __('Product', 'digiwoocheckout'),
-            'addon'      => __('Addon', 'digiwoocheckout'),
+            'product_name'    => __('Product', 'digiwoocheckout'),
+            'addon_name'      => __('Addon', 'digiwoocheckout'),
             'program_id' => __('Program ID', 'digiwoocheckout'),
             'actions'    => __('Actions', 'digiwoocheckout')
         ];
