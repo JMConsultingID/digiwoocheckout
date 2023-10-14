@@ -23,7 +23,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
     protected function register_controls() {
 
-    	
+
         $this->start_controls_section(
             'content_section',
             [
@@ -44,14 +44,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             [
                 'label' => __('Select Product', 'digiwoocheckout'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'options' => [
-	                'external' => [
-	                    'title' => __( 'External', 'digiwoocheckout' ),
-	                ],
-	                'internal' => [
-	                    'title' => __( 'Internal', 'digiwoocheckout' ),
-	                ],
-	            ],
+                'options' => $product_options,
 	            'default' => 'internal',
                 'default' => ''
             ]
@@ -61,7 +54,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
     }
 
     protected function render() {
-        $settings = $this->get_settings_for_display();?>
+        $settings = $this->get_settings_for_display();?>$settings = $this->get_settings_for_display();
 
         <section id="digiwoo-checkout-section" class="digiwoo-checkout-section my-3" style="margin-top:50px;">
         <div class="row">
