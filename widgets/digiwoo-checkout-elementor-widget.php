@@ -54,7 +54,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         $settings = $this->get_settings_for_display();?>
 
         <section id="digiwoo-checkout-section" class="digiwoo-checkout-section my-3" style="margin-top:50px;">
-        <div class="container">
+        <div class="row">
         	<p class="text-center">
 		        <?php       
 		        if (!empty($settings['selected_product'])) {
