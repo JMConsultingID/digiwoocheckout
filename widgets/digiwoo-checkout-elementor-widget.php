@@ -41,8 +41,16 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             'selected_product',
             [
                 'label' => __('Select Product', 'digiwoocheckout'),
-                'type' => Controls_Manager::SELECT,
-                'options' => $product_options,
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+	                'external' => [
+	                    'title' => __( 'External', 'digiwoocheckout' ),
+	                ],
+	                'internal' => [
+	                    'title' => __( 'Internal', 'digiwoocheckout' ),
+	                ],
+	            ],
+	            'default' => 'internal',
                 'default' => ''
             ]
         );
