@@ -47,22 +47,27 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
         $columns = $this->get_columns();
         $this->_column_headers = array($columns);
 
-        $this->items = digiwoocheckout_get_rules();
+        $this->items = $this->get_rules();
     }
 
     public function column_default($item, $column_name) {
         switch ($column_name) {
             case 'product_name':
-                return esc_html($item['product_name']);
             case 'addon_name':
-                return esc_html($item['addon_name']);
             case 'program_id':
-                return esc_html($item['program_id']);
+                return $item[$column_name];
             default:
-                return var_dump($item);  // For debugging purposes
-
+                return print_r($item, true); // For debugging purposes.
         }
     }
+    public function column_program_id($item) {
+        $actions = array(
+            'edit' => sprintf('<a href="?page=%s&action=%s&rule=%s">Edit</a>', $_REQUEST['page'], 'edit', $item['id'])
+        );
+
+        return sprintf('%1$s %2$s', $item['program_id'], $this->row_actions($actions));
+    }
+
 }
 
 function digiwoo_admin_menu() {
@@ -244,14 +249,11 @@ function digiwoo_get_category_callback() {
 
 
 function digiwoocheckout_get_rules() {
-    $rules = get_option('digiwoocheckout_rules', array());  // fetching the rules (however you're doing it)
-
-    foreach($rules as $index => $rule) {
-        $rules[$index]['product_name'] = get_the_title($rule['product']);
-        $rules[$index]['addon_name'] = get_the_title($rule['addon']);
-    }
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'digiwoocheckout_rules';
     
-    return $rules;
+    $query = "SELECT * FROM $table_name";
+    return $wpdb->get_results($query, 'ARRAY_A');
 }
 
 function digiwoocheckout_add_rule($rule) {
