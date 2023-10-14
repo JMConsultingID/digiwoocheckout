@@ -60,7 +60,9 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
                 return esc_html($item['program_id']);
             case 'actions':
                 // Example: Add a delete link and an edit link. 
-                return sprintf('<a href="?page=%s&action=%s&rule=%s">%s</a>', $_REQUEST['page'], 'edit', $item['id'], __('Edit', 'digiwoocheckout'));
+                $delete_link = sprintf('<a href="?page=%s&action=delete&rule_id=%s">Delete</a>', $_REQUEST['page'], $item['id']);
+                $edit_link = sprintf('<a href="?page=%s&action=edit&rule_id=%s">Edit</a>', $_REQUEST['page'], $item['id']);
+                return $edit_link . ' | ' . $delete_link;
             default:
                 return print_r($item, true);  // For debugging purposes
         }
