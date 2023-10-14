@@ -99,6 +99,37 @@ function digiwoo_settings_page() {
 }
 
 function digiwoo_setup_rule() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'digiwoocheckout_rules';
+
+    // 1. Check $_GET for delete or edit actions
+    if(isset($_GET['action']) && isset($_GET['rule_id'])) {
+        if($_GET['action'] === 'delete') {
+            $wpdb->delete($table_name, array('id' => $_GET['rule_id']));
+        } elseif($_GET['action'] === 'edit') {
+            // If edit action is clicked, populate the $current_rule with the existing values
+            $current_rule = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $_GET['rule_id']), ARRAY_A);
+        }
+    }
+
+    // 2. Check if the user submitted a new rule or edits
+    if(isset($_POST['product'], $_POST['addon'], $_POST['program_id'])) {
+        $rule_data = array(
+            'product'    => sanitize_text_field($_POST['product']),
+            'addon'      => sanitize_text_field($_POST['addon']),
+            'program_id' => sanitize_text_field($_POST['program_id'])
+        );
+
+        // If edit form is submitted, update the rule
+        if(isset($_POST['rule_id']) && $_POST['rule_id']) {
+            $wpdb->update($table_name, $rule_data, array('id' => $_POST['rule_id']));
+        } else {
+            // Otherwise, it's a new rule
+            digiwoocheckout_add_rule($rule_data);
+        }
+    }
+
+
     // Check if the user submitted a new rule
     if(isset($_POST['product'], $_POST['addon'], $_POST['program_id'])) {
         $new_rule = array(
@@ -108,6 +139,7 @@ function digiwoo_setup_rule() {
         );
         digiwoocheckout_add_rule($new_rule);
     }
+
 
     $table = new DigiWooCheckout_List_Table();
     $table->prepare_items();
@@ -136,9 +168,10 @@ function digiwoo_setup_rule() {
         }
     </style>';
 
-    // Input form for new rules
+    // Check if we are editing a rule and populate the form
+    $editing_rule = isset($current_rule) ? $current_rule : array('product' => '', 'addon' => '', 'program_id' => '');
+    
     echo '<form method="post">';
-
     echo '<table class="digiwoocheckout-table">';
     echo '<thead>';
     echo '<tr>';
@@ -148,37 +181,47 @@ function digiwoo_setup_rule() {
     echo '<th>&nbsp;</th>'; // This is for the submit button column
     echo '</tr>';
     echo '</thead>';
-
     echo '<tbody>';
     echo '<tr>';
+    
+    // Product dropdown
     echo '<td>';
     echo '<select name="product" style="width: 100%;">';
     foreach($products as $product) {
-        echo '<option value="' . esc_attr($product->ID) . '">' . esc_html($product->post_title) . '</option>';
+        $selected = ($product->ID == $editing_rule['product']) ? 'selected' : '';
+        echo '<option value="' . esc_attr($product->ID) . '" ' . $selected . '>' . esc_html($product->post_title) . '</option>';
     }
     echo '</select>';
     echo '</td>';
 
+    // Addon dropdown
     echo '<td>';
     echo '<select name="addon" style="width: 100%;">';
     foreach($addons as $addon) {
-        echo '<option value="' . esc_attr($addon->ID) . '">' . esc_html($addon->post_title) . '</option>';
+        $selected = ($addon->ID == $editing_rule['addon']) ? 'selected' : '';
+        echo '<option value="' . esc_attr($addon->ID) . '" ' . $selected . '>' . esc_html($addon->post_title) . '</option>';
     }
     echo '</select>';
     echo '</td>';
 
+    // Program ID
     echo '<td>';
-    echo '<input type="text" name="program_id" required style="width: 100%;">';
+    echo '<input type="text" name="program_id" required style="width: 100%;" value="' . esc_attr($editing_rule['program_id']) . '">';
     echo '</td>';
 
+    // Submit button
     echo '<td>';
-    echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
+    if (isset($current_rule)) {
+        echo '<input type="hidden" name="rule_id" value="' . esc_attr($current_rule['id']) . '">';
+        echo '<input type="submit" value="' . __('Update Rule', 'digiwoocheckout') . '">';
+    } else {
+        echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
+    }
     echo '</td>';
-
+    
     echo '</tr>';
     echo '</tbody>';
     echo '</table>';
-
     echo '</form>';
 
     $table->display();
@@ -305,3 +348,18 @@ function digiwoocheckout_get_woocommerce_products($type = 'exclude') {
     return $products;
 }
 
+function digiwoo_delete_rule($rule_id) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'digiwoocheckout_rules';
+    
+    // Delete rule from the table based on the ID
+    $wpdb->delete($table_name, array('id' => $rule_id));
+}
+
+function digiwoo_edit_rule($rule_id, $data) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'digiwoocheckout_rules';
+    
+    // Update the table based on the ID
+    $wpdb->update($table_name, $data, array('id' => $rule_id));
+}
