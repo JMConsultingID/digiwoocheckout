@@ -39,7 +39,8 @@ class DigiWooCheckout_List_Table extends WP_List_Table {
             case 'program_id':
                 return esc_html($item['program_id']);
             default:
-                return print_r($item, true);  // For debugging purposes
+                return var_dump($item);  // For debugging purposes
+
         }
     }
 }
