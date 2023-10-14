@@ -189,15 +189,9 @@ function digiwoo_settings_init() {
 add_action('admin_init', 'digiwoo_settings_init');
 
 
-function digiwoocheckout_get_rules() {
-    $rules = get_option('digiwoocheckout_rules', array());  // fetching the rules (however you're doing it)
-
-    foreach($rules as $index => $rule) {
-        $rules[$index]['product_name'] = get_the_title($rule['product']);
-        $rules[$index]['addon_name'] = get_the_title($rule['addon']);
-    }
-    
-    return $rules;
+function digiwoo_enable_callback() {
+    $checked = get_option('digiwoo_enable', '0') == '1' ? 'checked' : '';
+    echo "<input type='checkbox' name='digiwoo_enable' value='1' $checked />";
 }
 
 function digiwoo_get_category_callback() {
@@ -227,7 +221,14 @@ function digiwoo_get_category_callback() {
 
 
 function digiwoocheckout_get_rules() {
-    return get_option('digiwoocheckout_rules', array());
+    $rules = get_option('digiwoocheckout_rules', array());  // fetching the rules (however you're doing it)
+
+    foreach($rules as $index => $rule) {
+        $rules[$index]['product_name'] = get_the_title($rule['product']);
+        $rules[$index]['addon_name'] = get_the_title($rule['addon']);
+    }
+    
+    return $rules;
 }
 
 function digiwoocheckout_add_rule($rule) {
