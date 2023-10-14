@@ -85,22 +85,33 @@ function digiwoo_setup_rule() {
     $table = new DigiWooCheckout_List_Table();
     $table->prepare_items();
 
+    $products = digiwoocheckout_get_woocommerce_products('exclude');
+    $addons = digiwoocheckout_get_woocommerce_products('include')
+
     echo '<div class="wrap">';
     echo '<h1>' . __('DigiWooCheckout Rules', 'digiwoocheckout') . '</h1>';
 
     // Input form for new rules
     echo '<form method="post">';
+
     echo '<label for="product">' . __('Product:', 'digiwoocheckout') . '</label>';
-    echo '<input type="text" name="product" required>';
+    echo '<select name="product">';
+    foreach($products as $product) {
+        echo '<option value="' . esc_attr($product->ID) . '">' . esc_html($product->post_title) . '</option>';
+    }
+    echo '</select>';
     echo '</br>';
     
     echo '<label for="addon">' . __('Addon:', 'digiwoocheckout') . '</label>';
-    echo '<input type="text" name="addon" required>';
+    echo '<select name="addon">';
+    foreach($addons as $addon) {
+        echo '<option value="' . esc_attr($addon->ID) . '">' . esc_html($addon->post_title) . '</option>';
+    }
+    echo '</select>';
     echo '</br>';
     
     echo '<label for="program_id">' . __('Program ID:', 'digiwoocheckout') . '</label>';
     echo '<input type="text" name="program_id" required>';
-    echo '</br>';
 
     echo '<input type="submit" value="' . __('Add Rule', 'digiwoocheckout') . '">';
     echo '</form>';
@@ -144,11 +155,20 @@ function digiwoo_settings_init() {
         'digiwoo_main_section'
     );
     register_setting('digiwoo_settings', 'digiwoo_enable');
+
+    add_settings_field(
+        'digiwoo_category',
+        'Select Addon Category',
+        'digiwoo_get_category_callback',
+        'digiwoocheckout',
+        'digiwoo_main_section'
+    );
+    register_setting('digiwoo_settings', 'digiwoo_category');
 }
 
 add_action('admin_init', 'digiwoo_settings_init');
 
-function digiwoo_title_callback() {
+function digiwoo_get_category_callback() {
     // $title = get_option('digiwoo_title', '');
     // echo "<input type='text' name='digiwoo_title' value='$title' />";
 }
@@ -163,6 +183,32 @@ function digiwoo_enable_callback() {
     echo "<input type='checkbox' name='digiwoo_enable' value='1' $checked />";
 }
 
+function digiwoo_get_category_callback() {
+    // Get the saved category ID from the WordPress options
+    $saved_category_id = get_option('digiwoo_category', '');
+
+    // Fetch WooCommerce product categories
+    $args = array(
+        'taxonomy'   => 'product_cat',
+        'orderby'    => 'name',
+        'show_count' => 0,
+        'pad_counts' => 0,
+        'hierarchical' => 1,
+        'title_li'   => '',
+        'hide_empty' => 0
+    );
+    
+    $product_categories = get_categories($args);
+
+    echo '<select name="digiwoo_category">';
+    foreach ($product_categories as $category) {
+        $selected = ($category->term_id == $saved_category_id) ? 'selected="selected"' : '';
+        echo '<option value="' . esc_attr($category->term_id) . '" ' . $selected . '>' . esc_html($category->name) . '</option>';
+    }
+    echo '</select>';
+}
+
+
 function digiwoocheckout_get_rules() {
     return get_option('digiwoocheckout_rules', array());
 }
@@ -172,3 +218,31 @@ function digiwoocheckout_add_rule($rule) {
     $rules[] = $rule;
     update_option('digiwoocheckout_rules', $rules);
 }
+
+function digiwoocheckout_get_woocommerce_products($type = 'exclude') {
+    // Get the saved category ID to be included or excluded
+    $category_id = get_option('digiwoo_category', '');
+
+    // Setting tax_query based on type 
+    $tax_query = array(
+        'taxonomy' => 'product_cat',
+        'field'    => 'term_id',
+        'terms'    => array($category_id),
+    );
+
+    if ($type === 'exclude') {
+        $tax_query['operator'] = 'NOT IN';
+    } elseif ($type === 'include') {
+        $tax_query['operator'] = 'IN';
+    }
+
+    $args = array(
+        'post_type'      => 'product',
+        'posts_per_page' => -1,
+        'tax_query'      => array($tax_query),
+    );
+
+    $products = get_posts($args);
+    return $products;
+}
+
