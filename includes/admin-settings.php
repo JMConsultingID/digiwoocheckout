@@ -74,9 +74,12 @@ function digiwoo_settings_page() {
 function digiwoo_setup_rule() {
     // Check if the user submitted a new rule
     if(isset($_POST['product'], $_POST['addon'], $_POST['program_id'])) {
+        $product_name = get_the_title(sanitize_text_field($_POST['product']));
+        $addon_name = get_the_title(sanitize_text_field($_POST['addon']));
+
         $new_rule = array(
-            'product'    => sanitize_text_field($_POST['product']),
-            'addon'      => sanitize_text_field($_POST['addon']),
+            'product'    => $product_name,  // Now using the product name instead of ID
+            'addon'      => $addon_name,    // Now using the addon name instead of ID
             'program_id' => sanitize_text_field($_POST['program_id'])
         );
         digiwoocheckout_add_rule($new_rule);
@@ -166,24 +169,6 @@ function digiwoo_settings_init() {
         null,
         'digiwoocheckout'
     );
-
-    // add_settings_field(
-    //     'digiwoo_title',
-    //     'Title',
-    //     'digiwoo_title_callback',
-    //     'digiwoocheckout',
-    //     'digiwoo_main_section'
-    // );
-    // register_setting('digiwoo_settings', 'digiwoo_title');
-
-    // add_settings_field(
-    //     'digiwoo_description',
-    //     'Description',
-    //     'digiwoo_description_callback',
-    //     'digiwoocheckout',
-    //     'digiwoo_main_section'
-    // );
-    // register_setting('digiwoo_settings', 'digiwoo_description');
 
     add_settings_field(
         'digiwoo_enable',
