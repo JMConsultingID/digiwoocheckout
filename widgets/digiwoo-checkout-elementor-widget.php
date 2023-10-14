@@ -2,15 +2,15 @@
 class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base {
 
     public function get_name() {
-        return 'digiwoocheckout';
+        return 'digiwoo_checkout';
     }
 
     public function get_title() {
-        return __('DigiWooCheckout', 'digiwoocheckout');
+        return __('DigiWoo Checkout', 'digiwoocheckout');
     }
 
     public function get_icon() {
-        return 'eicon-woocommerce'; // For example, use the WooCommerce icon. You can pick other icons from Elementor's icon list.
+        return 'eicon-image-hotspot';
     }
 
     public function get_categories() {
@@ -21,7 +21,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 		return [ 'digiwoo', 'checkout' ];
 	}
 
-    protected function _register_controls() {
+    protected function register_controls() {
         $this->start_controls_section(
             'content_section',
             [
