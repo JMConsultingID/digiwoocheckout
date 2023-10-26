@@ -88,6 +88,20 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             ]
         );
 
+        $repeater->add_control(
+            'addon_product_name',
+            [
+                'label' => __('Add-On Product Name', 'text-domain'),
+                'type' => \Elementor\Controls_Manager::HIDDEN,  // Hidden control, so it doesn't show in the editor UI
+                'default' => '',
+                'dynamic' => [
+                    'active' => true,
+                    'default' => \Elementor\TagsModule\Module::instance()->get_tag_classes_namespaces(['Text'])  // This dynamic tag returns post title (i.e., product name) based on post ID
+                ],
+            ]
+        );
+
+
         // Rule Dropdown Control
         $repeater->add_control(
             'rule_hide_on_category',
@@ -105,7 +119,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
                 'label' => __('Add-On Products', 'text-domain'),
                 'type' => \Elementor\Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
-                'title_field' => '{{{ addon_product }}}',
+                'title_field' => '{{{ addon_product_name }}}',
             ]
         );
 
