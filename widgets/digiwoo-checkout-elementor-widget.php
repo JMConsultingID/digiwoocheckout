@@ -75,6 +75,40 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             ]
         );
 
+        $repeater = new \Elementor\Repeater();
+
+        // Add-On Product Dropdown Control
+        $repeater->add_control(
+            'addon_product',
+            [
+                'label' => __('Add-On Product', 'text-domain'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => $this->get_product_options(),  // You need to write this function to get product options
+                'default' => '',
+            ]
+        );
+
+        // Rule Dropdown Control
+        $repeater->add_control(
+            'rule_hide_on_category',
+            [
+                'label' => __('Hide Rule Based on Category', 'text-domain'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => array_merge(['none' => 'None'], $this->get_product_categories_dropdown()),  // Combining None option with categories
+                'default' => 'none',
+            ]
+        );
+
+        $this->add_control(
+            'addon_products_list',
+            [
+                'label' => __('Add-On Products', 'text-domain'),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'title_field' => '{{{ addon_product }}}',
+            ]
+        );
+
         $this->end_controls_section();
     }  
     
@@ -152,5 +186,15 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         );
         $query = new WP_Query($args);
         return $query->posts;
+    }
+
+    // Sample function to get product category options
+    protected function get_product_category_options() {
+        $categories = get_terms(['taxonomy' => 'product_cat']);
+        $options = [];
+        foreach ($categories as $category) {
+            $options[$category->term_id] = $category->name;
+        }
+        return $options;
     }
 }
