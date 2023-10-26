@@ -50,7 +50,39 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             ]
         );
 
+        $repeater = new \Elementor\Repeater();
+
+        // Add a dropdown to select WooCommerce product categories in each repeater item
+        $repeater->add_control(
+            'product_category',
+            [
+                'label' => __( 'Select Product Category', 'plugin-name' ),
+                'type' => \Elementor\Controls_Manager::SELECT2,
+                'options' => $this->get_product_categories_dropdown(),
+                'label_block' => true,
+            ]
+        );
+
+        $this->add_control(
+            'product_categories_list',
+            [
+                'label' => __( 'Product Categories', 'plugin-name' ),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'title_field' => '{{{ product_category }}}',
+            ]
+        );
+
         $this->end_controls_section();
+    }
+
+    private function get_product_categories_dropdown() {
+        $categories = get_terms('product_cat');
+        $dropdown = [];
+        foreach ($categories as $category) {
+            $dropdown[$category->term_id] = $category->name;
+        }
+        return $dropdown;
     }
 
     protected function render() {
@@ -104,5 +136,17 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             echo '<li>' . esc_html($product_category->name) . '</li>';
         }
         echo '</ul>';
+
+
+        if (!empty($settings['product_categories_list'])) {
+            echo '<ul class="digiwoo-selected-product-categories">';
+            foreach ($settings['product_categories_list'] as $item) {
+                $term = get_term_by('id', $item['product_category'], 'product_cat');
+                if ($term && !is_wp_error($term)) {
+                    echo '<li>' . esc_html($term->name) . '</li>';
+                }
+            }
+            echo '</ul>';
+        }
     }
 }
