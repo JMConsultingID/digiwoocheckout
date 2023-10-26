@@ -104,7 +104,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             [
                 'label' => __('Hide Rule Based on Category', 'text-domain'),
                 'type' => \Elementor\Controls_Manager::SELECT,
-                'options' => array_merge(['none' => 'None'], $this->get_product_category_options()),  // Combining None option with categories
+                'options' => $this->get_product_category_options(),  // Combining None option with categories
                 'default' => 'none',
             ]
         );
@@ -222,10 +222,11 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
     // Sample function to get product category options
     protected function get_product_category_options() {
         $categories = get_terms(['taxonomy' => 'product_cat']);
-        $options = [];
+        $options = ['none' => 'None'];  // Initialize with the None option
         foreach ($categories as $category) {
             $options[$category->term_id] = $category->name;
         }
         return $options;
     }
+
 }
