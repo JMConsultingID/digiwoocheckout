@@ -56,6 +56,16 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         );
 
         $this->add_control(
+            'default_account_product_category',
+            [
+                'label' => __( 'Select Default Account Balance Category', 'plugin-name' ),
+                'type' => \Elementor\Controls_Manager::SELECT2,
+                'options' => $this->get_product_categories_dropdown(),
+                'label_block' => true,
+            ]
+        );
+
+        $this->add_control(
             'add_on_product_category',
             [
                 'label' => __( 'Select Add-On Product Category', 'plugin-name' ),
@@ -71,6 +81,15 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
     protected function render() {
         $settings = $this->get_settings_for_display();
+
+        // Display products from the Add-On category
+        $default_account_category_id = $settings['default_account_product_category'];
+        $default_products = $this->get_products_by_category($default_account_category_id);
+
+        // Display products from the Add-On category
+        $add_on_category_id = $settings['add_on_product_category'];
+        $products = $this->get_products_by_category($add_on_category_id);
+
         if (!empty($settings['product_categories_list'])) {
             echo '<ul class="digiwoo-selected-product-categories">';
             foreach ($settings['product_categories_list'] as $item) {
@@ -82,9 +101,14 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             echo '</ul>';
         }
 
-        // Display products from the Add-On category
-        $add_on_category_id = $settings['add_on_product_category'];
-        $products = $this->get_products_by_category($add_on_category_id);
+        echo '<h2>Account Balance:</h2>';
+        echo '<ul class="digiwoo-default-products">';
+        foreach ($default_products as $default_product) {
+            echo '<li>' . esc_html($default_product->post_title) . '</li>';
+        }
+        echo '</ul>';
+
+        
 
         echo '<h2>Add-On Products:</h2>';
         echo '<ul class="digiwoo-add-on-products">';
