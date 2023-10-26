@@ -82,15 +82,18 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
     protected function render() {
         $settings = $this->get_settings_for_display();
 
+        $default_categories = $settings['product_categories_list'];
+
         // Display products from the Add-On category
         $default_account_category_id = $settings['default_account_product_category'];
         $default_products = $this->get_products_by_category($default_account_category_id);
 
         // Display products from the Add-On category
         $add_on_category_id = $settings['add_on_product_category'];
-        $products = $this->get_products_by_category($add_on_category_id);
+        $add_on_products = $this->get_products_by_category($add_on_category_id);
 
-        if (!empty($settings['product_categories_list'])) {
+        if (!empty($default_categories)) {
+            echo '<h4>Start a New Challenge:</h4>';
             echo '<ul class="digiwoo-selected-product-categories">';
             foreach ($settings['product_categories_list'] as $item) {
                 $term = get_term_by('id', $item['product_category'], 'product_cat');
@@ -101,21 +104,24 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             echo '</ul>';
         }
 
-        echo '<h4>Account Balance:</h4>';
-        echo '<ul class="digiwoo-default-products">';
-        foreach ($default_products as $default_product) {
-            echo '<li>' . esc_html($default_product->post_title) . '</li>';
+        if (!empty($default_categories)) {
+            echo '<h4>Account Balance:</h4>';
+            echo '<ul class="digiwoo-default-products">';
+            foreach ($default_products as $default_product) {
+                echo '<li>' . esc_html($default_product->post_title) . '</li>';
+            }
+            echo '</ul>';
         }
-        echo '</ul>';
 
         
-
-        echo '<h4>Add-On Products:</h4>';
-        echo '<ul class="digiwoo-add-on-products">';
-        foreach ($products as $product) {
-            echo '<li>' . esc_html($product->post_title) . '</li>';
+        if (!empty($add_on_products)) {
+            echo '<h4>Add-On Products:</h4>';
+            echo '<ul class="digiwoo-add-on-products">';
+            foreach ($add_on_products as $add_on_product) {
+                echo '<li>' . esc_html($add_on_product->post_title) . '</li>';
+            }
+            echo '</ul>';
         }
-        echo '</ul>';
     }
 
     private function get_product_categories_dropdown() {
