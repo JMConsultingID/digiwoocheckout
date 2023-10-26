@@ -92,36 +92,40 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         $add_on_category_id = $settings['add_on_product_category'];
         $add_on_products = $this->get_products_by_category($add_on_category_id);
 
+        echo '<form class="digiwoo-selected-product-categories">';
+
         if (!empty($default_categories)) {
-            echo '<h4>Start a New Challenge:</h4>';
-            echo '<ul class="digiwoo-selected-product-categories">';
+            echo '<h4>Start a New Challenge:</h4>';            
             foreach ($settings['product_categories_list'] as $item) {
                 $term = get_term_by('id', $item['product_category'], 'product_cat');
                 if ($term && !is_wp_error($term)) {
-                    echo '<li>' . esc_html($term->name) . '</li>';
+                    echo '<label>';
+                    echo '<input type="radio" name="product_category" value="' . esc_attr($term->term_id) . '">' . esc_html($term->name);
+                    echo '</label><br>';
                 }
             }
-            echo '</ul>';
         }
 
         if (!empty($default_categories)) {
             echo '<h4>Account Balance:</h4>';
-            echo '<ul class="digiwoo-default-products">';
             foreach ($default_products as $default_product) {
-                echo '<li>' . esc_html($default_product->post_title) . '</li>';
+                echo '<label>';
+                echo '<input type="radio" name="default_product" value="' . esc_attr($default_product->ID) . '">' . esc_html($default_product->post_title);
+                echo '</label><br>';
             }
-            echo '</ul>';
         }
 
-        
         if (!empty($add_on_products)) {
             echo '<h4>Add-On Products:</h4>';
-            echo '<ul class="digiwoo-add-on-products">';
             foreach ($add_on_products as $add_on_product) {
-                echo '<li>' . esc_html($add_on_product->post_title) . '</li>';
+                echo '<label>';
+                echo '<input type="radio" name="add_on_product" value="' . esc_attr($add_on_product->ID) . '">' . esc_html($add_on_product->post_title);
+                echo '</label><br>';
             }
-            echo '</ul>';
         }
+
+        echo '</form>';
+
     }
 
     private function get_product_categories_dropdown() {
