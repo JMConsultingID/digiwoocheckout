@@ -90,15 +90,6 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
         <section id="digiwoo-checkout-section" class="digiwoo-checkout-section my-3" style="margin-top:50px;">
         <div class="row">
-        	<p class="text-center">
-		        <?php       
-		        if (!empty($settings['selected_product'])) {
-		            // Display product data and other checkout functionalities.
-		            echo "Selected Product ID: " . $settings['selected_product'];
-		            // You can expand upon this, add add-to-cart function, and more.
-		        }
-		        ?>
-    		</p>
     		<?php
     		$product = wc_get_product($settings['selected_product']);
 			if ($product) {
@@ -110,32 +101,6 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
     	</div>
     	</section>
         <?php
-
-        // Check if WooCommerce is active
-        if (!class_exists('WooCommerce')) {
-            echo 'WooCommerce is not active';
-            return;
-        }
-
-        // Fetch product categories
-        $args = array(
-            'taxonomy' => 'product_cat',
-            'hide_empty' => false,
-        );
-        $product_categories = get_terms($args);
-
-        // Check if there are product categories
-        if (empty($product_categories) || is_wp_error($product_categories)) {
-            echo 'No product categories found';
-            return;
-        }
-
-        // Display the product categories
-        echo '<ul class="digiwoo-product-categories">';
-        foreach ($product_categories as $product_category) {
-            echo '<li>' . esc_html($product_category->name) . '</li>';
-        }
-        echo '</ul>';
 
 
         if (!empty($settings['product_categories_list'])) {
