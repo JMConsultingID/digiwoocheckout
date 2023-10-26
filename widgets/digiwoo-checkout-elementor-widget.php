@@ -188,12 +188,12 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         return $query->posts;
     }
 
-    // Sample function to get product category options
-    protected function get_product_category_options() {
-        $categories = get_terms(['taxonomy' => 'product_cat']);
+    // Sample function to get product options
+    protected function get_product_options() {
+        $products = get_posts(['post_type' => 'product', 'numberposts' => -1]);
         $options = [];
-        foreach ($categories as $category) {
-            $options[$category->term_id] = $category->name;
+        foreach ($products as $product) {
+            $options[$product->ID] = $product->post_title;
         }
         return $options;
     }
