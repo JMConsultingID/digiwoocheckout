@@ -89,7 +89,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         echo '<h2>Add-On Products:</h2>';
         echo '<ul class="digiwoo-add-on-products">';
         foreach ($products as $product) {
-            echo '<li>' . esc_html($product->get_name()) . '</li>';
+            echo '<li>' . esc_html($product->post_title) . '</li>';
         }
         echo '</ul>';
     }
