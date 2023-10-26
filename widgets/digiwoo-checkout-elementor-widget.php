@@ -88,16 +88,12 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             ]
         );
 
+         // To get product name based on the product ID for the title field
         $repeater->add_control(
             'addon_product_name',
             [
-                'label' => __('Add-On Product Name', 'text-domain'),
-                'type' => \Elementor\Controls_Manager::HIDDEN,  // Hidden control, so it doesn't show in the editor UI
-                'default' => '',
-                'dynamic' => [
-                    'active' => true,
-                    'default' => \Elementor\TagsModule\Module::instance()->get_tag_classes_namespaces(['Text'])  // This dynamic tag returns post title (i.e., product name) based on post ID
-                ],
+                'type' => \Elementor\Controls_Manager::HIDDEN,  // Hidden field
+                'default' => '', // Default can be blank. The value will be populated when a product is selected
             ]
         );
 
