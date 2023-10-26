@@ -39,3 +39,12 @@ function register_digiwoocheckout_widget( $widgets_manager ) {
     $widgets_manager->register( new \Elementor_Digiwoo_Checkout_Elementor_Widget() );   
 }
 add_action( 'elementor/widgets/register', 'register_digiwoocheckout_widget' );
+
+// Enqueue the scripts
+function digiwoocheckout_enqueue_scripts() {
+    // Register the script
+    wp_register_script('digiwoocheckout-js', plugin_dir_url(__FILE__) . 'assets/js/digiwoocheckout.js', array(), '1.0.0', true);
+    // Enqueue the script
+    wp_enqueue_script('digiwoocheckout-js');
+}
+add_action('wp_enqueue_scripts', 'digiwoocheckout_enqueue_scripts');
