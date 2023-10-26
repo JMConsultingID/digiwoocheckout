@@ -101,7 +101,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             echo '</ul>';
         }
 
-        echo '<h2>Account Balance:</h2>';
+        echo '<h4>Account Balance:</h4>';
         echo '<ul class="digiwoo-default-products">';
         foreach ($default_products as $default_product) {
             echo '<li>' . esc_html($default_product->post_title) . '</li>';
@@ -110,7 +110,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
         
 
-        echo '<h2>Add-On Products:</h2>';
+        echo '<h4>Add-On Products:</h4>';
         echo '<ul class="digiwoo-add-on-products">';
         foreach ($products as $product) {
             echo '<li>' . esc_html($product->post_title) . '</li>';
