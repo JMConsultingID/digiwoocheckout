@@ -94,6 +94,15 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         echo '</ul>';
     }
 
+    private function get_product_categories_dropdown() {
+        $categories = get_terms('product_cat');
+        $dropdown = [];
+        foreach ($categories as $category) {
+            $dropdown[$category->term_id] = $category->name;
+        }
+        return $dropdown;
+    }
+
     private function get_products_by_category($category_id) {
         $args = array(
             'post_type' => 'product',
@@ -109,14 +118,5 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         );
         $query = new WP_Query($args);
         return $query->posts;
-    }
-
-    private function get_product_categories_dropdown() {
-        $categories = get_terms('product_cat');
-        $dropdown = [];
-        foreach ($categories as $category) {
-            $dropdown[$category->term_id] = $category->name;
-        }
-        return $dropdown;
     }
 }
