@@ -66,33 +66,8 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         );
 
         $this->end_controls_section();
-    }
-
-    private function get_product_categories_dropdown() {
-        $categories = get_terms('product_cat');
-        $dropdown = [];
-        foreach ($categories as $category) {
-            $dropdown[$category->term_id] = $category->name;
-        }
-        return $dropdown;
-    }
-
-    private function get_products_by_category($category_id) {
-        $args = array(
-            'post_type' => 'product',
-            'posts_per_page' => -1,
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'product_cat',
-                    'field'    => 'id',
-                    'terms'    => $category_id,
-                    'operator' => 'IN',
-                ),
-            ),
-        );
-        $query = new WP_Query($args);
-        return $query->posts;
-    }
+    }  
+    
 
     protected function render() {
         $settings = $this->get_settings_for_display();
@@ -117,5 +92,31 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             echo '<li>' . esc_html($product->get_name()) . '</li>';
         }
         echo '</ul>';
+    }
+
+    private function get_products_by_category($category_id) {
+        $args = array(
+            'post_type' => 'product',
+            'posts_per_page' => -1,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'product_cat',
+                    'field'    => 'id',
+                    'terms'    => $category_id,
+                    'operator' => 'IN',
+                ),
+            ),
+        );
+        $query = new WP_Query($args);
+        return $query->posts;
+    }
+
+    private function get_product_categories_dropdown() {
+        $categories = get_terms('product_cat');
+        $dropdown = [];
+        foreach ($categories as $category) {
+            $dropdown[$category->term_id] = $category->name;
+        }
+        return $dropdown;
     }
 }
