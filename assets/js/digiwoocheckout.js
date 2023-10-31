@@ -17,11 +17,28 @@
 	    });
 
 	    const $productRadios = $('input[type="radio"][name="default_product"]');
+	    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product"]');
 	    const $totalPriceDiv = $('#total-price span');
-	    $productRadios.on('change', function() {
-	        const selectedPrice = $(this).data('price');
-	        $totalPriceDiv.text(selectedPrice);
-	    });
+
+	    // Function to update the total price
+	    const updateTotalPrice = () => {
+	        let basePrice = parseFloat($productRadios.filter(':checked').data('price') || 0);
+	        let totalPrecentage = 0;
+
+	        $addonCheckboxes.filter(':checked').each(function() {
+	            totalPrecentage += parseFloat($(this).data('precentage'));
+	        });
+
+	        const totalPrice = basePrice + (basePrice * totalPrecentage);
+	        $totalPriceDiv.text(totalPrice.toFixed(2)); // Displaying price with two decimal points
+	    };
+
+	    // Event listeners
+	    $productRadios.on('change', updateTotalPrice);
+	    $addonCheckboxes.on('change', updateTotalPrice);
+
+
+	    
 	});
 
 })( jQuery );
