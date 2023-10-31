@@ -175,14 +175,21 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             echo '<h4>Add-On Products:</h4>';
             foreach ($settings['addon_products_list'] as $addon) {
                 $product = wc_get_product($addon['addon_product']);
-                echo '<div class="addon-product" data-hide-rule="' . esc_attr($addon['rule_hide_on_category']) . '">';
-                echo '<label>';
-                echo '<input type="checkbox" name="addon_product" value="' . esc_attr($product->ID) . '">' . esc_html($product->get_name());
-                echo '</label>';
-                echo '</div>';
+                
+                if ($product) {
+                    $price = $product->get_price();
+                    $percentage = $price / 100;
+
+                    echo '<div class="addon-product" data-hide-rule="' . esc_attr($addon['rule_hide_on_category']) . '">';
+                    echo '<label>';
+                    echo '<input type="checkbox" name="addon_product" value="' . esc_attr($product->get_id()) . '" data-percentage="' . esc_attr($percentage) . '">'. esc_html($product->get_name());
+                    echo '</label>';
+                    echo '</div>';
+                }
             }
             echo '</div>';
         }
+
 
         echo '</form>';
 
