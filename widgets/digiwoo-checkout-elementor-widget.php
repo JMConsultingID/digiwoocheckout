@@ -182,7 +182,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
                     echo '<div class="addon-product" data-hide-rule="' . esc_attr($addon['rule_hide_on_category']) . '">';
                     echo '<label>';
-                    echo '<input type="checkbox" name="addon_product" value="' . esc_attr($product->ID) . '" data-price="' . esc_attr($price) . '" data-percentage="' . esc_attr($percentage) . '">' . esc_html($product->get_name()) . ' (' . get_woocommerce_currency_symbol() . $price . ')';
+                    echo '<input type="checkbox" name="addon_product" value="' . esc_attr($product->ID) . '" data-percentage="' . esc_attr($percentage) . '">'. esc_html($product->get_name());
                     echo '</label>';
                     echo '</div>';
                 }
