@@ -188,6 +188,12 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
                 }
             }
             echo '</div>';
+
+            echo '<div class="digiwoo-total-price">';
+            echo '<h4>Total</h4>';
+            echo '<div id="total-price">Total Price: <span>0</span></div>';
+            echo '</div>';
+
         }
 
 

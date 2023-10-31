@@ -3,7 +3,6 @@
 	jQuery(document).ready(function($) {
 	    const $categoryRadios = $('.digiwoo-selected-product-categories input[name="product_category"]');
 	    const $addonProducts = $('.digiwoo-add-on-products .addon-product');
-
 	    $categoryRadios.on('change', function() {
 	        const selectedCategory = $(this).val();
 	        
@@ -16,10 +15,13 @@
 	            }
 	        });
 	    });
+
+	    const $productRadios = $('input[type="radio"][name="default_product"]');
+	    const $totalPriceDiv = $('#total-price span');
+	    $productRadios.on('change', function() {
+	        const selectedPrice = $(this).data('price');
+	        $totalPriceDiv.text(selectedPrice);
+	    });
 	});
-
-
-
-
 
 })( jQuery );
