@@ -170,11 +170,13 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
         if (!empty($settings['addon_products_list'])) {
             echo '<div class="digiwoo-add-on-products">';
+            echo '<h4>Add-On Products:</h4>';
             foreach ($settings['addon_products_list'] as $addon) {
                 $product = wc_get_product($addon['addon_product']);
-                echo '<div class="addon-product" data-hide-rule="' . esc_attr($addon['rule_hide_on_category']) . '">';
-                echo esc_html($product->get_name());
-                echo '</div>';
+                echo '<label class="addon-product" data-hide-rule="' . esc_attr($addon['rule_hide_on_category']) . '">';
+                echo '<input type="radio" name="addon_product" value="' . esc_attr($product->ID) . '">' . esc_html($product->get_name());
+                echo '</label>'
+                echo '<br>';
             }
             echo '</div>';
         }
