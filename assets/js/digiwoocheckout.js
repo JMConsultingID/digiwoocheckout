@@ -26,7 +26,7 @@
 	        let totalPrecentage = 0;
 
 	        $addonCheckboxes.filter(':checked').each(function() {
-	            totalPrecentage += parseFloat($(this).data('precentage'));
+	            totalPrecentage += parseFloat($(this).data('percentage'));
 	        });
 
 	        const totalPrice = basePrice + (basePrice * totalPrecentage);
