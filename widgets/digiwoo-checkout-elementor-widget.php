@@ -153,8 +153,10 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
         if (!empty($default_categories)) {
             echo '<h4>Account Balance:</h4>';
             foreach ($default_products as $default_product) {
+                $product = wc_get_product($default_product->ID);
+                $price = $product ? $product->get_price() : 'N/A';
                 echo '<label>';
-                echo '<input type="radio" name="default_product" value="' . esc_attr($default_product->ID) . '">' . esc_html($default_product->post_title);
+                echo '<input type="radio" name="default_product" value="' . esc_attr($default_product->ID) . '" data-price="' . esc_attr($price) . '">' . esc_html($default_product->post_title) . ' (' . get_woocommerce_currency_symbol() . $price . ')';
                 echo '</label><br>';
             }
         }
