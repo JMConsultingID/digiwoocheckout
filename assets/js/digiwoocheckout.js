@@ -7,7 +7,7 @@
 	    const $productsContainer = $('.products-container'); // Assume you wrap your products list in a div with class 'products-container'
 
 	    // Function to update the total price
-	    const updateTotalPrice = () => {
+	    function updateTotalPrice() {
 	    	const $productRadios = $('input[type="radio"][name="default_product"]');
 		    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product"]');
 		    const $totalPriceDiv = $('#total-price span');
@@ -47,6 +47,7 @@
 	            success: function(response) {
 	                if (response) {
 	                    $productsContainer.html(response);
+	                    updateTotalPrice();
 	                }
 	            }
 	        });
@@ -54,8 +55,8 @@
 	    
 
 	    // Event delegation for dynamic elements
-		$(document).on('change', 'input[name="default_product"]', updateTotalPrice);
-		$(document).on('change', 'input[name="addon_product"]', updateTotalPrice);
+		$(document).on('change', 'input[name="default_product"]', updateTotalPrice());
+		$(document).on('change', 'input[name="addon_product"]', updateTotalPrice());
 
 
 
