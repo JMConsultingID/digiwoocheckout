@@ -55,6 +55,7 @@
 	    
 
 	    $(document).on('change', 'input[name="default_product"]', function() {
+	    	$('input[name="addon_product"]').prop('checked', false);
 	    	updateTotalPrice();
 	    });
 
