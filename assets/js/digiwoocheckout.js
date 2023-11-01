@@ -79,7 +79,9 @@
 	    });
 
 
-	    $('#proceedWithPayment').click(function() {
+	    $('#proceedWithPayment').click(function(e) {
+	    	e.preventDefault();
+	    	
 	        let selectedProduct = $('input[name="default_product"]:checked').val();
 	        
 	        let addonProducts = [];
