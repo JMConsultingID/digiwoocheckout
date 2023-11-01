@@ -150,8 +150,9 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
             }
         }
 
-        if (!empty($default_categories)) {
+        if (!empty($default_products)) {
             echo '<h4>Account Balance:</h4>';
+            echo '<div id="products-container">'; // Wrapping div
             foreach ($default_products as $default_product) {
                 $product = wc_get_product($default_product->ID);
                 $price = $product ? $product->get_price() : 'N/A';
@@ -159,6 +160,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
                 echo '<input type="radio" name="default_product" value="' . esc_attr($default_product->ID) . '" data-price="' . esc_attr($price) . '">' . esc_html($default_product->post_title) . ' (' . get_woocommerce_currency_symbol() . $price . ')';
                 echo '</label><br>';
             }
+            echo '</div>'; // Closing wrapping div
         }
 
         // if (!empty($add_on_products)) {

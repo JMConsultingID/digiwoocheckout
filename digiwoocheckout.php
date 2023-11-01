@@ -17,6 +17,7 @@ define('DIGIWOO_URL', plugin_dir_url(__FILE__));
 
 // Include other necessary files and classes here.
 require_once DIGIWOO_PATH . 'includes/admin-settings.php';
+require_once DIGIWOO_PATH . 'includes/digiwoocheckout-functions.php';
 // Register the activation hook
 register_activation_hook(__FILE__, 'digiwoocheckout_create_rules_table');
 
@@ -46,5 +47,8 @@ function digiwoocheckout_enqueue_scripts() {
     wp_register_script('digiwoocheckout-js', plugin_dir_url(__FILE__) . 'assets/js/digiwoocheckout.js', array(), '1.0.0', true);
     // Enqueue the script
     wp_enqueue_script('digiwoocheckout-js');
+    wp_localize_script('digiwoocheckoutscripts', 'digiwooScriptAjaxurl', array(
+        'ajax_url' => admin_url('admin-ajax.php')
+    ));
 }
 add_action('wp_enqueue_scripts', 'digiwoocheckout_enqueue_scripts');

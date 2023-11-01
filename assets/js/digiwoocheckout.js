@@ -1,20 +1,10 @@
 (function( $ ) {
 	'use strict';
 	jQuery(document).ready(function($) {
+		const ajaxurl = digiwooScriptAjaxurl.ajax_url;
 	    const $categoryRadios = $('.digiwoo-selected-product-categories input[name="product_category"]');
 	    const $addonProducts = $('.digiwoo-add-on-products .addon-product');
-	    $categoryRadios.on('change', function() {
-	        const selectedCategory = $(this).val();
-	        
-	        $addonProducts.each(function() {
-	            const hideRule = $(this).data('hide-rule');
-	            if (hideRule == selectedCategory) {  // Using double equals to allow type coercion
-	                $(this).hide();
-	            } else {
-	                $(this).show();
-	            }
-	        });
-	    });
+	    const $productsContainer = $('.products-container'); // Assume you wrap your products list in a div with class 'products-container'
 
 	    const $productRadios = $('input[type="radio"][name="default_product"]');
 	    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product"]');
@@ -33,11 +23,36 @@
 	        $totalPriceDiv.text(totalPrice.toFixed(2)); // Displaying price with two decimal points
 	    };
 
+	    $categoryRadios.on('change', function() {
+	        const selectedCategory = $(this).val();
+	        
+	        $addonProducts.each(function() {
+	            const hideRule = $(this).data('hide-rule');
+	            if (hideRule == selectedCategory) {  // Using double equals to allow type coercion
+	                $(this).hide();
+	            } else {
+	                $(this).show();
+	            }
+	        });
+
+	        $.ajax({
+	            url: ajaxurl, // This variable is automatically defined by WordPress when you enqueue your script using wp_enqueue_script()
+	            type: 'POST',
+	            data: {
+	                action: 'fetch_products_by_category',
+	                category_id: selectedCategory,
+	            },
+	            success: function(response) {
+	                if (response) {
+	                    $productsContainer.html(response);
+	                }
+	            }
+	        });
+	    });    
+
 	    // Event listeners
 	    $productRadios.on('change', updateTotalPrice);
 	    $addonCheckboxes.on('change', updateTotalPrice);
-
-
 	    
 	});
 
