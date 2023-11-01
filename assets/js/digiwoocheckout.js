@@ -25,6 +25,7 @@
 
 	    $categoryRadios.on('change', function() {
 	        const selectedCategory = $(this).val();
+	        $productRadios.prop('checked', false);
 	        
 	        $addonProducts.each(function() {
 	            const hideRule = $(this).data('hide-rule');
@@ -45,6 +46,7 @@
 	            success: function(response) {
 	                if (response) {
 	                    $productsContainer.html(response);
+	                    updateTotalPrice;
 	                }
 	            }
 	        });
