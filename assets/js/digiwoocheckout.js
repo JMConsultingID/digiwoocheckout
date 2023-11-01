@@ -53,9 +53,15 @@
 	        });
 	    });    
 
-	    // Event listeners
-	    $productRadios.on('change', updateTotalPrice);
+	    
+
+	    $(document).on('change', 'input[name="default_product"]', function() {
+	    	updateTotalPrice;
+	    }
+
 	    $addonCheckboxes.on('change', updateTotalPrice);
+
+
 	    
 	});
 
