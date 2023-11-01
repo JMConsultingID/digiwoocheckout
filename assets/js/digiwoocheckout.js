@@ -39,7 +39,7 @@
 	            url: ajaxurl, // This variable is automatically defined by WordPress when you enqueue your script using wp_enqueue_script()
 	            type: 'POST',
 	            data: {
-	                action: 'fetch_products_by_category',
+	                action: 'dgc_fetch_products_by_category',
 	                category_id: selectedCategory,
 	            },
 	            success: function(response) {

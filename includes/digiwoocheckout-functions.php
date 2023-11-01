@@ -11,8 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
-function fetch_products_by_category() {
+function dgc_fetch_products_by_category() {
     $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
     $args = array(
         'post_type' => 'product',
@@ -36,5 +35,5 @@ function fetch_products_by_category() {
     echo $output;
     wp_die();
 }
-add_action('wp_ajax_fetch_products_by_category', 'fetch_products_by_category');
-add_action('wp_ajax_nopriv_fetch_products_by_category', 'fetch_products_by_category');
+add_action('wp_ajax_fetch_products_by_category', 'dgc_fetch_products_by_category');
+add_action('wp_ajax_nopriv_fetch_products_by_category', 'dgc_fetch_products_by_category');
