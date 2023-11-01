@@ -6,12 +6,12 @@
 	    const $addonProducts = $('.digiwoo-add-on-products .addon-product');
 	    const $productsContainer = $('.products-container'); // Assume you wrap your products list in a div with class 'products-container'
 
-	    const $productRadios = $('input[type="radio"][name="default_product"]');
-	    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product"]');
-	    const $totalPriceDiv = $('#total-price span');
-
 	    // Function to update the total price
 	    const updateTotalPrice = () => {
+	    	const $productRadios = $('input[type="radio"][name="default_product"]');
+		    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product"]');
+		    const $totalPriceDiv = $('#total-price span');
+
 	        let basePrice = parseFloat($productRadios.filter(':checked').data('price') || 0);
 	        let totalPrecentage = 0;
 
@@ -25,8 +25,8 @@
 
 	    $categoryRadios.on('change', function() {
 	        const selectedCategory = $(this).val();
-	        $productRadios.prop('checked', false);
-	        $addonCheckboxes.prop('checked', false);
+	        $('input[name="default_product"]').prop('checked', false);
+	        $('input[name="addon_product"]').prop('checked', false);
 	        
 	        $addonProducts.each(function() {
 	            const hideRule = $(this).data('hide-rule');
@@ -47,7 +47,6 @@
 	            success: function(response) {
 	                if (response) {
 	                    $productsContainer.html(response);
-	                    updateTotalPrice;
 	                }
 	            }
 	        });
