@@ -8,6 +8,7 @@
 
 	    $('input[name="default_product"]').prop('disabled', true);
 	    $('input[name="addon_product[]"]').prop('disabled', true);
+	    $('.btn').prop('disabled', true);
 
 	    // Function to update the total price
 	    function updateTotalPrice() {
@@ -69,6 +70,7 @@
 	    $(document).on('change', 'input[name="default_product"]', function() {
 	    	$('input[name="addon_product[]"]').prop('checked', false);
 	    	$('input[name="addon_product[]"]').prop('disabled', false);
+	    	$('.btn').prop('disabled', false);
 	    	updateTotalPrice();
 	    });
 
