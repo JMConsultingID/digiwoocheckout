@@ -6,6 +6,9 @@
 	    const $addonProducts = $('.digiwoo-add-on-products .addon-product');
 	    const $productsContainer = $('.products-container'); // Assume you wrap your products list in a div with class 'products-container'
 
+	    $('input[name="default_product"]').prop('disabled', true);
+	    $('input[name="addon_product[]"]').prop('disabled', true);
+
 	    // Function to update the total price
 	    function updateTotalPrice() {
 	    	const $productRadios = $('input[type="radio"][name="default_product"]');
@@ -27,7 +30,8 @@
 	        const selectedCategory = $(this).val();
 	        $('input[name="default_product"]').prop('checked', false);
 	        $('input[name="addon_product[]"]').prop('checked', false);
-	    	$('input[name="addon_product[]"]').prop('disabled', true);
+	        $('.products-container').addClass('loading');    
+	        $('.digiwoo-add-on-products').addClass('loading');	
 	        
 	        $addonProducts.each(function() {
 	            const hideRule = $(this).data('hide-rule');
@@ -48,16 +52,22 @@
 	            success: function(response) {
 	                if (response) {
 	                    $productsContainer.html(response);
+	                    $('input[name="default_product"]').prop('disabled', true);
 	                    updateTotalPrice();
 	                }
 	            }
+	            complete:function(){
+	            	$('.products-container').removeClass('loading'); 
+                	$('.digiwoo-add-on-products').removeClass('loading');
+                	$('input[name="default_product"]').prop('disabled', true);	                    	
+                }
 	        });
 	    });    
 	    
 
 	    $(document).on('change', 'input[name="default_product"]', function() {
 	    	$('input[name="addon_product[]"]').prop('checked', false);
-	    	$('input[name="addon_product[]"]').prop('disabled', true);
+	    	$('input[name="addon_product[]"]').prop('disabled', false);
 	    	updateTotalPrice();
 	    });
 
