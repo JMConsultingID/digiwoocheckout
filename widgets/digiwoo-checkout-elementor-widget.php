@@ -198,6 +198,8 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
         }
 
+        echo '<button class="btn">Proceed With Payment</button>';
+
 
         echo '</form>';
 
