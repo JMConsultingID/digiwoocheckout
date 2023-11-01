@@ -54,12 +54,13 @@
 	    });    
 	    
 
-	    // Event delegation for dynamic elements
-		$(document).on('change', 'input[name="default_product"]', updateTotalPrice());
-		$(document).on('change', 'input[name="addon_product"]', updateTotalPrice());
+	    $(document).on('change', 'input[name="default_product"]', function() {
+	    	updateTotalPrice();
+	    });
 
-
-
+	    $(document).on('change', 'input[name="addon_product"]', function() {
+	    	updateTotalPrice();
+	    });
 	    
 	});
 
