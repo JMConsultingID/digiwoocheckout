@@ -47,7 +47,7 @@ function digiwoocheckout_enqueue_scripts() {
     wp_register_script('digiwoocheckout-js', plugin_dir_url(__FILE__) . 'assets/js/digiwoocheckout.js', array(), '1.0.0', true);
     // Enqueue the script
     wp_enqueue_script('digiwoocheckout-js');
-    wp_localize_script('digiwoocheckoutscripts', 'digiwooScriptAjaxurl', array(
+    wp_localize_script('digiwoocheckout-js', 'digiwooScriptAjaxurl', array(
         'ajax_url' => admin_url('admin-ajax.php')
     ));
 }
