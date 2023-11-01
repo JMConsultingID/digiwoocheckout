@@ -55,7 +55,7 @@
 	                    $('input[name="default_product"]').prop('disabled', true);
 	                    updateTotalPrice();
 	                }
-	            }
+	            },
 	            complete:function(){
 	            	$('.products-container').removeClass('loading'); 
                 	$('.digiwoo-add-on-products').removeClass('loading');
