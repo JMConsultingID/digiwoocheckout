@@ -11,6 +11,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+add_action('wp_ajax_dgc_fetch_products_by_category', 'dgc_fetch_products_by_category');
+add_action('wp_ajax_nopriv_dgc_fetch_products_by_category', 'dgc_fetch_products_by_category');
+
 function dgc_fetch_products_by_category() {
     $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
     $args = array(
@@ -35,5 +38,29 @@ function dgc_fetch_products_by_category() {
     echo $output;
     wp_die();
 }
-add_action('wp_ajax_dgc_fetch_products_by_category', 'dgc_fetch_products_by_category');
-add_action('wp_ajax_nopriv_dgc_fetch_products_by_category', 'dgc_fetch_products_by_category');
+
+add_action('wp_ajax_create_order', 'create_order_callback');
+add_action('wp_ajax_nopriv_create_order', 'create_order_callback');
+
+function create_order_callback() {
+    $product_id = intval($_POST['product_id']);
+    $addon_products = isset($_POST['addon_products']) ? array_map('intval', $_POST['addon_products']) : [];
+    $total_price = floatval($_POST['total_price']);
+
+    // Create a new WooCommerce order
+    $order = wc_create_order();
+    $order->add_product(get_product($product_id), 1); // Adding the main product to order
+
+    // Loop through and add addon products
+    foreach($addon_products as $addon_id) {
+        $order->add_product(get_product($addon_id), 1);
+    }
+
+    $order->set_total($total_price); // Setting the total price
+    $order->save(); // Saving the order
+
+    // Send a response back
+    echo json_encode(array('success' => true, 'order_id' => $order->get_id()));
+    wp_die();
+}
+

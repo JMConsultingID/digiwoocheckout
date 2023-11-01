@@ -77,6 +77,34 @@
 	    $(document).on('change', 'input[name="addon_product[]"]', function() {
 	    	updateTotalPrice();
 	    });
+
+
+	    $('#proceedWithPayment').click(function() {
+	        let selectedProduct = $('input[name="default_product"]:checked').val();
+	        
+	        let addonProducts = [];
+	        $('input[name="addon_product[]"]:checked').each(function() {
+	            addonProducts.push($(this).val());
+	        });
+
+	        let totalPrice = $('#total-price span').text(); // Replace with your div's id or selector
+	        
+	        $.ajax({
+	            url: ajaxurl,
+	            type: 'POST',
+	            data: {
+	                action: 'create_order',
+	                product_id: selectedProduct,
+	                addon_products: addonProducts,
+	                total_price: totalPrice
+	            },
+	            success: function(response) {
+	                if (response.success) {
+				        window.location.href = '/checkout/order-pay/' + response.order_id + '?pay_for_order=true';
+				    }
+	            }
+	        });
+	    });
 	    
 	});
 
