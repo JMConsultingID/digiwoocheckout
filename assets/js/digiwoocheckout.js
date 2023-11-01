@@ -54,11 +54,10 @@
 	    });    
 	    
 
-	    $('input[name="default_product"]').change(function() {
-	    	updateTotalPrice;
-	    });
+	    // Event delegation for dynamic elements
+		$(document).on('change', 'input[name="default_product"]', updateTotalPrice);
+		$(document).on('change', 'input[name="addon_product"]', updateTotalPrice);
 
-	    $addonCheckboxes.on('change', updateTotalPrice);
 
 
 	    
