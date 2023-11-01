@@ -30,6 +30,7 @@
 	        const selectedCategory = $(this).val();
 	        $('input[name="default_product"]').prop('checked', false);
 	        $('input[name="addon_product[]"]').prop('checked', false);
+	        $('input[name="addon_product[]"]').prop('disabled', true);
 	        $('.products-container').addClass('loading');    
 	        $('.digiwoo-add-on-products').addClass('loading');	
 	        
