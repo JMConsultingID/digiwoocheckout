@@ -59,7 +59,7 @@
 	            complete:function(){
 	            	$('.products-container').removeClass('loading'); 
                 	$('.digiwoo-add-on-products').removeClass('loading');
-                	$('input[name="default_product"]').prop('disabled', true);	                    	
+                	$('input[name="default_product"]').prop('disabled', false);	                    	
                 }
 	        });
 	    });    
