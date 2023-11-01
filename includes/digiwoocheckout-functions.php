@@ -35,5 +35,5 @@ function dgc_fetch_products_by_category() {
     echo $output;
     wp_die();
 }
-add_action('wp_ajax_fetch_products_by_category', 'dgc_fetch_products_by_category');
-add_action('wp_ajax_nopriv_fetch_products_by_category', 'dgc_fetch_products_by_category');
+add_action('wp_ajax_dgc_fetch_products_by_category', 'dgc_fetch_products_by_category');
+add_action('wp_ajax_nopriv_dgc_fetch_products_by_category', 'dgc_fetch_products_by_category');
