@@ -152,7 +152,7 @@ class Elementor_Digiwoo_Checkout_Elementor_Widget extends \Elementor\Widget_Base
 
         if (!empty($default_products)) {
             echo '<h4>Account Balance:</h4>';
-            echo '<div id="products-container">'; // Wrapping div
+            echo '<div id="products-container" class="products-container">'; // Wrapping div
             foreach ($default_products as $default_product) {
                 $product = wc_get_product($default_product->ID);
                 $price = $product ? $product->get_price() : 'N/A';
