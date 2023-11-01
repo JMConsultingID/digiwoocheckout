@@ -26,6 +26,7 @@
 	    $categoryRadios.on('change', function() {
 	        const selectedCategory = $(this).val();
 	        $productRadios.prop('checked', false);
+	        $addonCheckboxes.prop('checked', false);
 	        
 	        $addonProducts.each(function() {
 	            const hideRule = $(this).data('hide-rule');
