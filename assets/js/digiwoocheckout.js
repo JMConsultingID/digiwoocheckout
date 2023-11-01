@@ -2,6 +2,7 @@
 	'use strict';
 	jQuery(document).ready(function($) {
 		const ajaxurl = digiwooScriptAjaxurl.ajax_url;
+		console.log(digiwooScriptAjaxurl.ajax_url); 
 	    const $categoryRadios = $('.digiwoo-selected-product-categories input[name="product_category"]');
 	    const $addonProducts = $('.digiwoo-add-on-products .addon-product');
 	    const $productsContainer = $('.products-container'); // Assume you wrap your products list in a div with class 'products-container'
