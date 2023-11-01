@@ -12,7 +12,7 @@
 	    // Function to update the total price
 	    function updateTotalPrice() {
 	    	const $productRadios = $('input[type="radio"][name="default_product"]');
-		    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product"]');
+		    const $addonCheckboxes = $('input[type="checkbox"][name="addon_product[]"]');
 		    const $totalPriceDiv = $('#total-price span');
 
 	        let basePrice = parseFloat($productRadios.filter(':checked').data('price') || 0);
