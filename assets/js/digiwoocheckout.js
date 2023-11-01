@@ -26,7 +26,8 @@
 	    $categoryRadios.on('change', function() {
 	        const selectedCategory = $(this).val();
 	        $('input[name="default_product"]').prop('checked', false);
-	        $('input[name="addon_product"]').prop('checked', false);
+	        $('input[name="addon_product[]"]').prop('checked', false);
+	    	$('input[name="addon_product[]"]').prop('disabled', true);
 	        
 	        $addonProducts.each(function() {
 	            const hideRule = $(this).data('hide-rule');
@@ -55,7 +56,8 @@
 	    
 
 	    $(document).on('change', 'input[name="default_product"]', function() {
-	    	$('input[name="addon_product"]').prop('checked', false);
+	    	$('input[name="addon_product[]"]').prop('checked', false);
+	    	$('input[name="addon_product[]"]').prop('disabled', true);
 	    	updateTotalPrice();
 	    });
 
