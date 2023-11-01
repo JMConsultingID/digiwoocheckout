@@ -71,7 +71,7 @@
 	    	updateTotalPrice();
 	    });
 
-	    $(document).on('change', 'input[name="addon_product"]', function() {
+	    $(document).on('change', 'input[name="addon_product[]"]', function() {
 	    	updateTotalPrice();
 	    });
 	    
